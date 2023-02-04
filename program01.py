@@ -119,6 +119,40 @@ import images
 
 def ex1(input_file, output_file):
     # write your code here
+    image_list = images.load(input_file)
+    #print(image_list)
+    bg_color = image_list[0][0]
+    database = {}
+    temp_database = {}
+    count = 0
+    limit_y_axis = len(image_list)
+    limit_x_axis = len(image_list[0])
+    for row in image_list:
+        for curr_pixel,nxt_pixel in zip(row,row[1:]):
+            if nxt_pixel != bg_color:
+                if nxt_pixel == curr_pixel:
+                    if nxt_pixel not in database:
+                        database[nxt_pixel] = 1
+                        temp_database[nxt_pixel] = 1
+                        
+                    else:
+                        database[nxt_pixel] += 1
+                else:
+                    try:
+                        if temp_database[nxt_pixel] <= database[nxt_pixel]:
+                            temp_database[nxt_pixel] = 1
+                        else:
+                            database[nxt_pixel] = temp_database[nxt_pixel]
+                            temp_database[nxt_pixel] = 1
+                    except:
+                        continue
+    print(database)
+                        
+            
+        
+        
+        
+    
     
 
 
