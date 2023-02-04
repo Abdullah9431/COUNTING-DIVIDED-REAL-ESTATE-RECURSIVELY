@@ -136,16 +136,20 @@ def ex1(input_file, output_file):
                         temp_database[nxt_pixel] = 1
                         
                     else:
-                        database[nxt_pixel] += 1
-                else:
-                    try:
-                        if temp_database[nxt_pixel] <= database[nxt_pixel]:
-                            temp_database[nxt_pixel] = 1
-                        else:
+                        temp_database[nxt_pixel] += 1
+                        if temp_database[nxt_pixel] > database[nxt_pixel]:
                             database[nxt_pixel] = temp_database[nxt_pixel]
-                            temp_database[nxt_pixel] = 1
-                    except:
-                        continue
+                else:
+                    temp_database[nxt_pixel] = 1
+                # else:
+                #     try:
+                #         if temp_database[nxt_pixel] <= database[nxt_pixel]:
+                #             temp_database[nxt_pixel] = 1
+                #         else:
+                #             database[nxt_pixel] = temp_database[nxt_pixel]
+                #             temp_database[nxt_pixel] = 1
+                #     except:
+                #         continue
     print(database)
                         
             
