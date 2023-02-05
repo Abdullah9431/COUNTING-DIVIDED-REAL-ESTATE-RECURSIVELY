@@ -116,7 +116,37 @@ NOTE: The test system recognizes recursion ONLY if the recursive
 
 import images
 
-
+def recursive1(color,image_list):
+    image1 = []
+    image2 = []
+    image3 = []
+    image4 = []
+    limit_y_axis = len(image_list)
+    limit_x_axis = len(image_list[0])
+    flag_y = True
+    for xe in range(limit_y_axis):
+        if image_list[xe][0] == color:
+            for row1 in range(limit_y_axis):
+                flag_x = True
+                if row1==xe:
+                    flag_y = False
+                    continue
+                for pixel1 in range(limit_x_axis):
+                    if image_list[row1][pixel1] == color:
+                        flag_x = False
+                    if flag_y and flag_x:
+                       image4.append(image_list[row1][pixel1])
+                       if 
+                    if flag_y and not flag_x:
+                       image3.append(image_list[row1][pixel1])
+                    if not flag_y and flag_x:
+                       image2.append(image_list[row1][pixel1]) 
+                    if not flag_y and not flag_x:
+                       image1.append(image_list[row1][pixel1])
+                    
+        break
+            
+            
 def ex1(input_file, output_file):
     # write your code here
     image_list = images.load(input_file)
@@ -125,8 +155,7 @@ def ex1(input_file, output_file):
     database = {}
     temp_database = {}
     count = 0
-    limit_y_axis = len(image_list)
-    limit_x_axis = len(image_list[0])
+    
     for row in image_list:
         for curr_pixel,nxt_pixel in zip(row,row[1:]):
             if nxt_pixel != bg_color:
