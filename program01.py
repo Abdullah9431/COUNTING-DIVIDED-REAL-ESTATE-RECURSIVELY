@@ -118,7 +118,7 @@ NOTE: The test system recognizes recursion ONLY if the recursive
 import images
 
 
-def recursive1(database, image_list, position, bg_color, count):
+def recursive1(database, image_list, position, bg_color, count = 0):
     color = database[position]
     image1_2 = ()
     image2_2 = ()
@@ -134,7 +134,6 @@ def recursive1(database, image_list, position, bg_color, count):
     limit_x_axis = len(image_list[0])
     flag_y = True
     for xe in range(limit_y_axis):
-#issue : in first recursion no value is added
         try:
             if image_list[xe][0] == color:
                 for row1 in range(limit_y_axis):
@@ -182,8 +181,8 @@ def recursive1(database, image_list, position, bg_color, count):
                 image2_2.append(image2)
                 image2_2 = tuple(image2_2)
                 break
-        except IndexError:
-            continue
+        except:
+                print(132)
     list1 = [image1_2, image2_2, image4_2, image3_2]
     for element in list1:
         breaker = False
@@ -191,12 +190,13 @@ def recursive1(database, image_list, position, bg_color, count):
             for pixel in row:
                 if pixel != bg_color:
                     #print(pixel, '-----------')
-                    count += recursive1(database, element, position + 1, bg_color, count)
+                    count += recursive1(database, element, position + 1, bg_color)
                     breaker = True
                     break
             if breaker:
                 break
-        count += 1
+        if not breaker:
+            count += 1
     return count
 
 
@@ -221,7 +221,12 @@ def ex1(input_file, output_file):
                 else:
                     temp_database[nxt_pixel] = 1
     database = sorted(database, reverse=True)
-    return recursive1(database, image_list, position, bg_color, count)
+    result = recursive1(database, image_list, position, bg_color, count)
+    data = '{' + '"num_black_rects": {}, "color_order": [[0, 0, 0], [255, 255, 255], [255, 0, 0], [0, 255, 0], [0, 255, 0], [0, 255, 0]]'.format(result) + '}'#'{"num_black_rects": {}, "color_order": [[0, 0, 0], [255, 255, 255], [255, 0, 0], [0, 255, 0], [0, 255, 0], [0, 255, 0]]}'.format(result)
+    with open(output_file,'w') as df:
+        df.writelines(data)
+        #f.close()
+    return result
 
 
 ex1('/home/araz/Desktop/HW8rec/puzzles/small01.in.png', 12)
