@@ -1,4 +1,3 @@
-#(whats the issue in the below code?)
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -118,19 +117,21 @@ NOTE: The test system recognizes recursion ONLY if the recursive
 import images
 
 
-def recursive1(database, image_list, position, bg_color, count = 0):
-    color = database[position]
-    image1_2 = ()
-    image2_2 = ()
-    image3_2 = ()
-    image4_2 = ()
+def recursive1(database, image_list, position, bg_color, color_list, count = 0):
+    try:
+        color = database[position]
+    except:
+        return 1
+    color_list.append(color)
+    image1_2 = []
+    image2_2 = []
+    image3_2 = []
+    image4_2 = []
     image1 = []
     image2 = []
     image3 = []
     image4 = []
     limit_y_axis = len(image_list)
-    # if count == 3:
-    #     print(image_list[0])
     limit_x_axis = len(image_list[0])
     flag_y = True
     for xe in range(limit_y_axis):
@@ -139,20 +140,19 @@ def recursive1(database, image_list, position, bg_color, count = 0):
                 for row1 in range(limit_y_axis):
                     if flag_y:
                         if image3 != []:
-                            image4_2 = list(image4_2)
                             image4_2.append(image4)
-                            image4_2 = tuple(image4_2)
-                            image3_2 = list(image3_2)
+                            #image4_2 = tuple(image4_2)
+                            #image3_2 = list(image3_2)
                             image3_2.append(image3)
-                            image3_2 = tuple(image3_2)
+                            #image3_2 = tuple(image3_2)
                     else:
                         if image2 != []:
-                            image1_2 = list(image1_2)
+                            #image1_2 = list(image1_2)
                             image1_2.append(image1)
-                            image1_2 = tuple(image1_2)
-                            image2_2 = list(image2_2)
+                            #image1_2 = tuple(image1_2)
+                            #image2_2 = list(image2_2)
                             image2_2.append(image2)
-                            image2_2 = tuple(image2_2)
+                            #image2_2 = tuple(image2_2)
                     image1 = []
                     image2 = []
                     image3 = []
@@ -162,7 +162,6 @@ def recursive1(database, image_list, position, bg_color, count = 0):
                         flag_y = False
                         continue
                     for pixel1 in range(limit_x_axis):
-                        #not passing in first recursion because limit_x_axis = 0
                         if image_list[row1][pixel1] == color:
                             flag_x = False
                             continue
@@ -182,15 +181,14 @@ def recursive1(database, image_list, position, bg_color, count = 0):
                 image2_2 = tuple(image2_2)
                 break
         except:
-                print(132)
+                continue
     list1 = [image1_2, image2_2, image4_2, image3_2]
     for element in list1:
         breaker = False
         for row in element:
             for pixel in row:
                 if pixel != bg_color:
-                    #print(pixel, '-----------')
-                    count += recursive1(database, element, position + 1, bg_color)
+                    count += recursive1(database, element, position + 1, bg_color, color_list)
                     breaker = True
                     break
             if breaker:
@@ -207,6 +205,7 @@ def ex1(input_file, output_file):
     temp_database = {}
     count = 0
     position = 0
+    color_list = [bg_color]
     for row in image_list:
         for curr_pixel, nxt_pixel in zip(row, row[1:]):
             if nxt_pixel != bg_color:
@@ -220,17 +219,12 @@ def ex1(input_file, output_file):
                             database[nxt_pixel] = temp_database[nxt_pixel]
                 else:
                     temp_database[nxt_pixel] = 1
-    database = sorted(database, reverse=True)
-    result = recursive1(database, image_list, position, bg_color, count)
-    data = '{' + '"num_black_rects": {}, "color_order": [[0, 0, 0], [255, 255, 255], [255, 0, 0], [0, 255, 0], [0, 255, 0], [0, 255, 0]]'.format(result) + '}'#'{"num_black_rects": {}, "color_order": [[0, 0, 0], [255, 255, 255], [255, 0, 0], [0, 255, 0], [0, 255, 0], [0, 255, 0]]}'.format(result)
-    with open(output_file,'w') as df:
-        df.writelines(data)
-        #f.close()
+    database = sorted(database.items(),key = lambda x: x[1], reverse=True)
+    database = [i[0] for i in database]
+    result = int(recursive1(database, image_list, position, bg_color, color_list, count))
+    images.save(color_list,output_file)
+    # data = '{' + '"num_black_rects": {}, "color_order": {}'.format(result,color_list) + '}'
+    # with open(output_file,'w') as f:
+    #     f.writelines(data)
     return result
 
-
-ex1('/home/araz/Desktop/HW8rec/puzzles/small01.in.png', 12)
-
-# if __name__ == '__main__':
-#     # write your tests here
-#     ex1('/home/araz/Desktop/HW8rec/puzzles/small01.in.png',12)
