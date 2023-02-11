@@ -141,18 +141,11 @@ def recursive1(database, image_list, position, bg_color, color_list, count = 0):
                     if flag_y:
                         if image3 != []:
                             image4_2.append(image4)
-                            #image4_2 = tuple(image4_2)
-                            #image3_2 = list(image3_2)
                             image3_2.append(image3)
-                            #image3_2 = tuple(image3_2)
                     else:
                         if image2 != []:
-                            #image1_2 = list(image1_2)
                             image1_2.append(image1)
-                            #image1_2 = tuple(image1_2)
-                            #image2_2 = list(image2_2)
                             image2_2.append(image2)
-                            #image2_2 = tuple(image2_2)
                     image1 = []
                     image2 = []
                     image3 = []
@@ -173,16 +166,12 @@ def recursive1(database, image_list, position, bg_color, color_list, count = 0):
                            image2.append(image_list[row1][pixel1]) 
                         elif not flag_y and not flag_x:
                            image1.append(image_list[row1][pixel1])            
-                image1_2 = list(image1_2)
                 image1_2.append(image1)
-                image1_2 = tuple(image1_2)
-                image2_2 = list(image2_2)
                 image2_2.append(image2)
-                image2_2 = tuple(image2_2)
                 break
         except:
                 continue
-    list1 = [image1_2, image2_2, image4_2, image3_2]
+    list1 = [image1_2, image2_2, image3_2, image4_2]
     for element in list1:
         breaker = False
         for row in element:
@@ -221,10 +210,8 @@ def ex1(input_file, output_file):
                     temp_database[nxt_pixel] = 1
     database = sorted(database.items(),key = lambda x: x[1], reverse=True)
     database = [i[0] for i in database]
-    result = int(recursive1(database, image_list, position, bg_color, color_list, count))
-    images.save(color_list,output_file)
-    # data = '{' + '"num_black_rects": {}, "color_order": {}'.format(result,color_list) + '}'
-    # with open(output_file,'w') as f:
-    #     f.writelines(data)
+    print(database)
+    result = recursive1(database, image_list, position, bg_color, color_list, count)
+    color_list2 = [color_list]
+    images.save(color_list2,output_file)
     return result
-
