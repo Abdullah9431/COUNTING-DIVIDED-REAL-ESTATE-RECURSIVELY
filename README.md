@@ -105,9 +105,6 @@ output_file) which:
          the color hierarchy is:
          bg e l n g h m f c b d a
  
-NOTE: it is forbidden to import/use other libraries or open files
-      except the one indicated
-
 NOTE: The test system recognizes recursion ONLY if the recursive
       function/method is defined in the outermost level.  DO NOT
       define the recursive function within another function/method
