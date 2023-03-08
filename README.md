@@ -1,6 +1,5 @@
 # Description of problem
 
-"""
 A real estate owner in California, Lida,  inherits a piece of land. The
 land is modeled as a rectangular patch of variable size. The patch of
 land is represented with an image (list of lists).
@@ -109,4 +108,3 @@ NOTE: The test system recognizes recursion ONLY if the recursive
       function/method is defined in the outermost level.  DO NOT
       define the recursive function within another function/method
       otherwise, you will fail all the tests.
-"""
